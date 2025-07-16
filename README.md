@@ -3,7 +3,9 @@
 This project focuses on identifying different underwater platforms (e.g., submarines, dolphins, torpedoes, cargo ships,  etc.) using their unique acoustic signatures. It combines signal processing with deep learning to classify platform types based on audio features extracted from underwater recordings.
 
 ## 📂 Dataset & Testing Audios
-> ⚠️ **Note**: The full dataset and test audio files are hosted on **Kaggle** due to size restrictions on GitHub.  
+> ⚠️ **Note**: The dataset and testing audio files were not sourced from Kaggle originally.  
+They were curated and compiled manually using multiple raw underwater recordings from public and defense-relevant sources.  
+Due to GitHub’s size limitations, they have now been uploaded to **Kaggle** for convenient access only.  
 - 🔗 [Access Dataset + Testing Audios on Kaggle](https://www.kaggle.com/datasets/arshiasingh2005/platform-identification-using-acoustic-signature)  
 
 To use this project:
