@@ -1,0 +1,13 @@
+numpy
+pandas
+matplotlib
+seaborn
+librosa
+soundfile
+audioread
+soxr
+tensorflow
+scikit-learn
+ipython
+prompt_toolkit
+glob2

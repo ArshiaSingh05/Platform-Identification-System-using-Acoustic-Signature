@@ -131,7 +131,7 @@ import librosa
 import librosa.display
 import matplotlib.pyplot as plt
 
-# 🔧 Parameters
+#  Parameters
 DATASET_PATH = "D:/DRDO INTERNSHIP/Platform Identification Using Acoustic Signature/dataset"  # Root folder containing class folders
 SAMPLE_RATE = 22050
 N_MELS = 128
@@ -139,12 +139,12 @@ HOP_LENGTH = 512
 DURATION = 5  # seconds
 FIXED_LEN = SAMPLE_RATE * DURATION
 
-# 🎧 Add Noise Function
+#  Add Noise Function
 def add_noise(data, noise_level=0.005):
     noise = np.random.randn(len(data))
     return data + noise_level * noise
 
-# 🔁 Loop through each class/category
+# Loop through each class/category
 for category in os.listdir(DATASET_PATH):
     class_path = os.path.join(DATASET_PATH, category)
     if not os.path.isdir(class_path):
@@ -156,10 +156,10 @@ for category in os.listdir(DATASET_PATH):
         if file.endswith('.wav'):
             file_path = os.path.join(class_path, file)
 
-            # 🔊 Load audio
+            # Load audio
             y, sr = librosa.load(file_path, sr=SAMPLE_RATE)
 
-            # 🩹 Pad or truncate
+            # Pad or truncate
             if len(y) < FIXED_LEN:
                 y = np.pad(y, (0, FIXED_LEN - len(y)))
             else:
@@ -169,7 +169,7 @@ for category in os.listdir(DATASET_PATH):
                 y = add_noise(y)
 
 
-            # 📊 Convert to mel-spectrogram
+            # Convert to mel-spectrogram
             mel_spec = librosa.feature.melspectrogram(
                 y=y, sr=sr, n_mels=80, hop_length=512, n_fft = 2048, fmax = 8000)
             mel_spec_db = librosa.power_to_db(mel_spec, ref=np.max)
@@ -177,11 +177,11 @@ for category in os.listdir(DATASET_PATH):
             mel_specs.append(mel_spec_db)
 
     if mel_specs:
-        # 📚 Stack and average
+        # Stack and average
         mel_specs = np.stack(mel_specs)
         avg_mel_spec = np.mean(mel_specs, axis=0)
 
-        # 🖼️ Plot the average spectrogram
+        # Plot the average spectrogram
         plt.figure(figsize=(10, 4))
         librosa.display.specshow(avg_mel_spec, sr=SAMPLE_RATE, hop_length=HOP_LENGTH,
                                  x_axis='time', y_axis='mel', cmap='viridis')
@@ -371,10 +371,10 @@ from tensorflow.keras import regularizers
 
 model = Sequential()
 
-# 📌 Input Layer
+# Input Layer
 model.add(Input(shape=(40, 862, 1)))
 
-# 🧠 Conv Layer 1 — Keep L2, reduce Dropout to prevent early underfitting
+# Conv Layer 1 — Keep L2, reduce Dropout to prevent early underfitting
 model.add(Conv2D(32, (3, 3), padding='same',
                  kernel_regularizer=regularizers.l2(0.0005)))
 model.add(BatchNormalization())
@@ -382,7 +382,7 @@ model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.2))
 
-# 🧠 Conv Layer 2 — Moderate Dropout, reduced L2 regularization
+# Conv Layer 2 — Moderate Dropout, reduced L2 regularization
 model.add(Conv2D(64, (3, 3), padding='same',
                  kernel_regularizer=regularizers.l2(0.0005)))
 model.add(BatchNormalization())
@@ -390,7 +390,7 @@ model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.3))
 
-# 🧠 Conv Layer 3 — Deeper dropout kept for strong regularization
+# Conv Layer 3 — Deeper dropout kept for strong regularization
 model.add(Conv2D(128, (3, 3), padding='same',
                  kernel_regularizer=regularizers.l2(0.0005)))
 model.add(BatchNormalization())
@@ -398,14 +398,14 @@ model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.4))
 
-# 🔄 TimeDistributed Flatten
+# TimeDistributed Flatten
 model.add(TimeDistributed(Flatten()))
 
-# 🔁 LSTM — Add recurrent_dropout, moderate dropout
+# LSTM — Add recurrent_dropout, moderate dropout
 model.add(LSTM(64, return_sequences=False, dropout=0.3, recurrent_dropout=0.2))
 model.add(Dropout(0.3))
 
-# 🎯 Output Layer
+# Output Layer
 model.add(Dense(y.shape[1], activation='softmax'))
 
 
@@ -447,13 +447,13 @@ class_weights = class_weight.compute_class_weight(
 )
 class_weights_dict = dict(enumerate(class_weights))
 
-# ✅ Early stopping and checkpoint
+# Early stopping and checkpoint
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 
 early_stop = EarlyStopping(monitor='val_loss', patience=8, restore_best_weights=True)
 checkpoint = ModelCheckpoint("best_model.h5", monitor='val_loss', save_best_only=True)
 
-# ✅ Model training with class weights
+# Model training with class weights
 history = model.fit(
     x_train,
     y_train,
