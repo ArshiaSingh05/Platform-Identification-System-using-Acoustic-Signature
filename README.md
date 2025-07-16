@@ -65,13 +65,13 @@ This is achieved using a hybrid **CNN-LSTM** deep learning model trained on stac
 
 ## 📁 Repository Structure
 Platform-Identification-System-using-Acoustic-Signature/  
-│
+│  
 ├── final_code.py                  # Complete pipeline: load, extract, train, evaluate  
 ├── cnn_rnn_acoustic_model.h5     # Saved CNN-LSTM model  
 ├── best_model.h5                 # Best model with early stopping  
 ├── README.md                     # You're reading it!  
 
-📬 Contact
+## 📬 Contact
 For queries or collaboration, feel free to connect:  
 Arshia Singh  
 LinkedIn : https://www.linkedin.com/in/arshia05/  
